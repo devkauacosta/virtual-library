@@ -25,3 +25,4 @@ class Book(models.Model):
     genre = models.ForeignKey(Genre, on_delete=models.PROTECT, related_name='book_genre')
     publication_year = models.IntegerField()
     publisher = models.ForeignKey(Publisher, on_delete=models.PROTECT, related_name='book_publisher')
+    photo_cover = models.ImageField(upload_to='books/', blank=True, null=True)

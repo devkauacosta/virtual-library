@@ -15,3 +15,13 @@ class Publisher(models.Model):
 
     def __str__(self):
         return self.name
+
+
+#Tabela de Livros
+class Book(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=200)
+    autor = models.CharField(max_length=200)
+    genre = models.ForeignKey(Genre, on_delete=models.PROTECT, related_name='book_genre')
+    publication_year = models.IntegerField()
+    publisher = models.ForeignKey(Publisher, on_delete=models.PROTECT, related_name='book_publisher')

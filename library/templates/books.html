@@ -1,0 +1,19 @@
+{% block content %}
+
+<form method="GET" action="{% url 'books_list' %}">
+    <input type="text" name="search" placeholder="Buscar livro...">
+    <button type="submit">Buscar</button>
+</form>
+
+{% for book in books %}
+{% if book.photo_cover %}
+<img src="{{ book.photo_cover.url }}" alt="{{ book.title }}">
+{% else %}
+<p>Sem foto</p>
+{% endif %}
+<h2>{{ book.title }}</h2>
+<p>Autor: {{ book.autor }}</p>
+<p>Genêro: {{ book.genre }}</p>
+<p>Ano de publicação: {{ book.publication_year }}</p>
+<p>Editora: {{ book.publisher }}</p>
+{% endblock %}

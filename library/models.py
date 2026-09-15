@@ -14,7 +14,7 @@ class Publisher(models.Model):
     name_publisher = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.name
+        return self.name_publisher
 
 
 #Tabela de Livros

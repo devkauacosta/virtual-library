@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView
 from .models import Book
+from unidecode import unidecode
 
 class BookListView(ListView):
     """
@@ -16,5 +17,5 @@ class BookListView(ListView):
         books = super().get_queryset().order_by('title')
         search = self.request.GET.get('search')
         if search:
-            books = books.filter(model_contains=search)
-        return books
+            books = books.filter(title__contains=search)
+        return books    

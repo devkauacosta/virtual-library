@@ -1,22 +1,166 @@
-{% block content %}
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-<form method="GET" action="{% url 'books_list' %}">
-    <input type="text" name="search" placeholder="Buscar livro...">
-    <button type="submit">Buscar</button>
-    <button href="{% url 'books_list' %}">Cancelar</button>
-</form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Virtual</title>
 
-{% for book in books %}
-<h2>{{ book.title }}</h2>
-{% if book.photo_cover %}
-<img src="{{ book.photo_cover.url }}" alt="{{ book.title }}" width="300px">
-{% else %}
-<p>Sem foto</p>
-{% endif %}
-<p>Autor: {{ book.autor }}</p>
-<p>Genêro: {{ book.genre }}</p>
-<p>Ano de publicação: {{ book.publication_year }}</p>
-<p>Editora: {{ book.publisher }}</p>
-<a href="{% url 'book_detail' pk=book.pk %}">Acessar</a>
-{% endfor %}
-{% endblock %}
+    <!-- Importando Tailwind CSS para estilização rápida -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Importando fontes do Google Fonts (Bangers para títulos cômicos, Space Grotesk para leitura moderna) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Space+Grotesk:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Configuração customizada do Tailwind e estilos extras -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'comic': ['Bangers', 'cursive'],
+                        'sans': ['Space Grotesk', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neo-white': '4px 4px 0px 0px rgba(255, 255, 255, 1)',
+                        'neo-yellow': '6px 6px 0px 0px rgba(250, 204, 21, 1)',
+                        'neo-cyan': '6px 6px 0px 0px rgba(34, 211, 238, 1)',
+                        'neo-pink': '6px 6px 0px 0px rgba(244, 114, 182, 1)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Fundo estilo retícula de quadrinhos (halftone) sutil para o Dark Mode */
+        body {
+            background-color: #09090b;
+            /* zinc-950 */
+            background-image: radial-gradient(#27272a 2px, transparent 2px);
+            background-size: 24px 24px;
+            color: #f4f4f5;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-4 md:p-8 font-sans selection:bg-yellow-400 selection:text-black">
+
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Cabeçalho / Título da Página -->
+        <header class="text-center mb-12 mt-4 relative">
+            <h1
+                class="font-comic text-5xl md:text-7xl tracking-wide uppercase text-white drop-shadow-[4px_4px_0_#eab308] rotate-[-2deg] inline-block">
+                BIBLIOTECA VIRTUAL
+            </h1>
+            <p class="mt-4 text-zinc-400 font-bold tracking-widest uppercase text-sm md:text-base">
+                Seu acervo no multiverso
+            </p>
+        </header>
+
+        <!-- Aqui começa o seu bloco Django -->
+        {% block content %}
+
+        <!-- Formulário de Busca com visual Neo-Brutalista -->
+        <section class="max-w-3xl mx-auto mb-16">
+            <form method="GET" action="{% url 'books_list' %}" class="flex flex-col sm:flex-row gap-4">
+
+                <!-- Input de Busca -->
+                <div class="flex-1 relative group">
+                    <input type="text" name="search" placeholder="BUSCAR LIVRO..."
+                        class="w-full bg-zinc-900 text-white border-4 border-white px-6 py-4 text-lg font-bold uppercase placeholder:text-zinc-600 focus:outline-none focus:border-yellow-400 focus:shadow-neo-yellow transition-all rounded-none">
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="flex flex-row gap-4">
+                    <button type="submit"
+                        class="bg-cyan-400 text-black border-4 border-white px-8 py-4 font-black uppercase text-lg shadow-neo-white hover:-translate-y-1 hover:shadow-neo-cyan transition-all rounded-none active:translate-y-1 active:shadow-none">
+                        Buscar
+                    </button>
+
+                    <!-- Nota: Troquei a tag <button href="..."> original por uma <a> para HTML semântico correto -->
+                    <a href="{% url 'books_list' %}"
+                        class="bg-pink-400 flex items-center justify-center text-black border-4 border-white px-6 py-4 font-black uppercase text-lg shadow-neo-white hover:-translate-y-1 hover:shadow-neo-pink transition-all rounded-none active:translate-y-1 active:shadow-none">
+                        Limpar
+                    </a>
+                </div>
+            </form>
+        </section>
+
+        <!-- Grid de Livros -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10">
+
+            <!-- Loop de livros do Django -->
+            {% for book in books %}
+
+            <!-- Card do Livro -->
+            <article
+                class="bg-zinc-900 border-4 border-white flex flex-col group hover:-translate-y-2 hover:shadow-neo-white transition-all duration-300 relative rounded-none">
+
+                <!-- Badges flutuantes (Ano de Publicação com estilo balão de HQ) -->
+                <div
+                    class="absolute -top-4 -right-4 z-10 bg-yellow-400 text-black font-black px-3 py-1 border-4 border-black rotate-6 shadow-[4px_4px_0_#fff]">
+                    {{ book.publication_year }}
+                </div>
+
+                <!-- Capa do Livro -->
+                <div
+                    class="aspect-[3/4] border-b-4 border-white overflow-hidden bg-zinc-800 relative flex items-center justify-center">
+                    {% if book.photo_cover %}
+                    <img src="{{ book.photo_cover.url }}" alt="{{ book.title }}"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    {% else %}
+                    <!-- Visual alternativo de alto contraste para quando não houver foto -->
+                    <div
+                        class="w-full h-full flex flex-col items-center justify-center p-4 text-center border-8 border-dashed border-zinc-700 m-4 bg-zinc-900">
+                        <span class="font-comic text-3xl text-zinc-600 mb-2">POOF!</span>
+                        <span class="text-zinc-500 font-bold uppercase tracking-widest text-sm">Sem Foto</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Informações e Metadados do Livro -->
+                <div class="p-6 flex-1 flex flex-col bg-zinc-900">
+                    <h2
+                        class="text-2xl font-black text-white mb-4 leading-tight uppercase group-hover:text-cyan-400 transition-colors line-clamp-2">
+                        {{ book.title }}
+                    </h2>
+
+                    <div class="space-y-2 mb-6 text-sm md:text-base">
+                        <p class="text-zinc-300 font-bold uppercase border-b-2 border-zinc-800 pb-1">
+                            <span class="text-yellow-400 mr-2">Autor:</span> {{ book.autor }}
+                        </p>
+                        <p class="text-zinc-300 font-bold uppercase border-b-2 border-zinc-800 pb-1">
+                            <span class="text-cyan-400 mr-2">Gênero:</span> {{ book.genre }}
+                        </p>
+                        <p class="text-zinc-300 font-bold uppercase border-b-2 border-zinc-800 pb-1">
+                            <span class="text-pink-400 mr-2">Editora:</span> {{ book.publisher }}
+                        </p>
+                    </div>
+
+                    <!-- Botão de Acessar -->
+                    <div class="mt-auto pt-2">
+                        <a href="{% url 'book_detail' pk=book.pk %}"
+                            class="block w-full text-center bg-white text-black border-4 border-white px-4 py-3 font-black uppercase text-lg hover:bg-yellow-400 hover:border-yellow-400 transition-colors">
+                            Acessar Detalhes
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            {% endfor %}
+            <!-- Fim do loop -->
+
+        </div>
+
+        {% endblock %}
+        <!-- Aqui termina o seu bloco Django -->
+
+    </div>
+
+</body>
+
+</html>

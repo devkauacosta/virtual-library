@@ -1,0 +1,11 @@
+<h2>{{ book.title }}</h2>
+{% if book.photo_cover %}
+<img src="{{ book.photo_cover.url }}" alt="{{ book.title }}" width="300px">
+{% else %}
+<p>Sem foto</p>
+{% endif %}
+<p>Autor: {{ book.autor }}</p>
+<p>Genêro: {{ book.genre }}</p>
+<p>Ano de publicação: {{ book.publication_year }}</p>
+<p>Editora: {{ book.publisher }}</p>
+<a href="{% url 'books_list' %}">Voltar</a>

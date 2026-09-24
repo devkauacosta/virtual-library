@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Book
 from unidecode import unidecode
 
@@ -19,3 +19,9 @@ class BookListView(ListView):
         if search:
             books = books.filter(title__contains=search)
         return books    
+
+
+class BookDetailView(DetailView):
+    model = Book
+    template_name = 'book_detail.html'
+    context_object_name = 'book'

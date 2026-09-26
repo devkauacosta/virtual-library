@@ -13,6 +13,7 @@ class Publisher(models.Model):
     id = models.AutoField(primary_key=True)
     name_publisher = models.CharField(max_length=200)
     logo = models.ImageField(upload_to='publishers/', blank=True, null=True)
+    bio_publisher = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name_publisher

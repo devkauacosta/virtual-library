@@ -1,0 +1,13 @@
+{% block content %}
+<form method="GET" action="{% url 'publisher_list' %}">
+    <input type="text" name="search" placeholder="Buscar editora...">
+    <button type="submit">Buscar</button>
+</form>
+{% for publisher in publishers %}
+{% if publisher.logo %}
+<h2>{{ publisher.name_publisher }}</h2>
+<img src="{{ publisher.logo.url }}" width="500px">
+{% endif %}
+{% endfor %}
+
+{% endblock %}

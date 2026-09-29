@@ -42,3 +42,9 @@ class PublisherListView(ListView):
             if search:
                 publishers = publishers.filter(name_publisher__contains=search)
             return publishers
+
+
+class PublisherDetailView(DetailView):
+    model = Publisher
+    template_name = 'publisher_detail.html'
+    context_object_name = 'publisher'

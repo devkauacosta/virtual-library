@@ -7,7 +7,12 @@
 {% if publisher.logo %}
 <h2>{{ publisher.name_publisher }}</h2>
 <img src="{{ publisher.logo.url }}" width="500px">
+<div class="mt-auto">
+    <a href="{% url 'publisher_detail' pk=publisher.pk %}"
+        class="block w-full text-center bg-zinc-800 text-white rounded-lg px-4 py-3 font-bold uppercase text-sm tracking-wider group-hover:bg-cyan-400 group-hover:text-black transition-colors duration-300">
+        Detalhes
+    </a>
+</div>
 {% endif %}
 {% endfor %}
-
 {% endblock %}

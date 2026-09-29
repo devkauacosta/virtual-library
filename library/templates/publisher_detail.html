@@ -1,0 +1,7 @@
+{% block content %}
+<h1>{{ publisher.name_publisher }}</h1>
+{% if publisher.logo %}
+<img src="{{ publisher.logo.url }}" width="500px">
+{% endif %}
+<p>{{ publisher.bio_publisher }}</p>
+{% endblock %}

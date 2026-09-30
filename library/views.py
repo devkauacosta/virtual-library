@@ -14,11 +14,11 @@ class BookListView(ListView):
 
     #Filtro de busca
     def get_queryset(self):
-        books = super().get_queryset().order_by('title')
+        books = super().get_queryset().order_by('title', 'genre')
         search = self.request.GET.get('search')
         if search:
             books = books.filter(title__contains=search)
-        return books    
+        return books   
 
 
 class BookDetailView(DetailView):
